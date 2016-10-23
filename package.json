@@ -1,0 +1,20 @@
+{
+  "name": "polar-h7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "duration-parser": "^1.0.2",
+    "humanize-duration": "^3.9.1",
+    "minimist": "^1.2.0",
+    "noble": "^1.7.0",
+    "say": "^0.10.0",
+    "through": "^2.3.8"
+  }
+}

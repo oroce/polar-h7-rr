@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+const duration = require('duration-parser');
+const humanize = require('humanize-duration');
+const say = require('say');
+const fs = require('fs');
+const app = require('..');
+const argv = require('minimist')(process.argv.slice(2), {
+  strings: [
+    'initial-delay',
+    'breakpoints',
+    'length',
+    'output',
+    'uuid'
+  ]
+});
+const output = !argv.output || typeof argv.output === 'boolean' ?
+  process.stdout :
+  fs.createWriteStream(argv.output, {
+    defaultEncoding: 'ascii'
+  });
+setTimeout(function() {
+  app({
+    onstart: onstart,
+    uuid: argv.uuid
+  })
+  .pipe(output)
+}, (toSeconds(argv['initial-delay'] || 0) * 1000));
+
+
+function onstart() {
+  say.speak('The measurement has been started!');
+  (argv.breakpoints || '')
+    .split(',')
+    .map(toSeconds)
+    .forEach(function(ms) {
+      const at = humanize(ms, {
+        round: true
+      });
+
+      setTimeout(function() {
+        say.speak(`We are at ${at}.`)
+      }, ms);
+    });
+
+  setTimeout(function() {
+    output.end();
+    say.speak('The measurement ended.', '', 1, function() {
+      process.exit(0);
+    });
+  }, toSeconds(argv.length || 5 * 60));
+
+}
+function toSeconds(input) {
+  if (+input === input) {
+    return +input;
+  }
+  return duration(input);
+}
