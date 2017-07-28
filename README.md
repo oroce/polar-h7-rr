@@ -43,6 +43,7 @@ How long we should measure the RR values in seconds. Or you can use human readab
 ## `--output`
 
 The output file, where we should put the csv. You can set it to `-`, and we will write the output to the stdout.
+
 ## `--uuid`
 
 The uuid of the Polar H7. If you are unsure about your device's uuid, just start the basic example of noble, it will you print it out or run this:
@@ -50,6 +51,39 @@ The uuid of the Polar H7. If you are unsure about your device's uuid, just start
 ```
 node -e "var n=require('noble'); n.on('discover',function(p){console.log(p.advertisement.localName, p.id)}).on('stateChange',function(){n.startScanning()})"
 ```
+
+### `--columns`
+
+It's a comma separated list which sets what columns should be printed, by default the time difference and the RR values are getting printed. Options:
+
+* timediff
+* rr
+
+# Using HRV analyzing programs
+
+## Kubios
+
+For generating a kubios compatible output use one of these commands:
+
+```
+node bin/polar-h7-rr --initial-delay 5 --breakpoints 30s,40s --length 50s --uuid f8ccdd4ee826483493d38f6a4fd9aa57
+```
+
+or
+
+```
+node bin/polar-h7-rr --initial-delay 5 --breakpoints 30s,40s --length 50s --uuid f8ccdd4ee826483493d38f6a4fd9aa57 --columns=timediff,rr
+```
+
+## gHRV
+
+gHRV uses a little bit different ascii csv, only the RR values are needed, use the following commmand:
+
+```
+node bin/polar-h7-rr --initial-delay 5 --breakpoints 30s,40s --length 50s --uuid f8ccdd4ee826483493d38f6a4fd9aa57 --columns=rr
+```
+
+You can load the output using the UI or issue the command: `python gHRV.py -loadBeatTXT somepath/my-data.txt`
 
 # Debugging
 

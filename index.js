@@ -31,10 +31,7 @@ module.exports = function(opts) {
   let onstartCalled = false;
   const onstart = opts.onstart || noop;
   const stream = through(function write(data) {
-    this.queue([
-      data.timediff,
-      data.rr
-    ].join('\t') + '\r\n') //data *must* not be null
+    this.queue(data) //data *must* not be null
   });
 
   noble.on('discover', function(p) {
