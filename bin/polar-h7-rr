@@ -3,6 +3,7 @@ const duration = require('duration-parser');
 const humanize = require('humanize-duration');
 const say = require('say');
 const fs = require('fs');
+const stringify = require('csv-stringify');
 const app = require('..');
 const argv = require('minimist')(process.argv.slice(2), {
   strings: [
@@ -10,7 +11,8 @@ const argv = require('minimist')(process.argv.slice(2), {
     'breakpoints',
     'length',
     'output',
-    'uuid'
+    'uuid',
+    'columns'
   ]
 });
 const output = !argv.output || typeof argv.output === 'boolean' ?
@@ -18,11 +20,15 @@ const output = !argv.output || typeof argv.output === 'boolean' ?
   fs.createWriteStream(argv.output, {
     defaultEncoding: 'ascii'
   });
+const columns = (argv.columns || 'timediff,rr').split(',');
 setTimeout(function() {
   app({
     onstart: onstart,
     uuid: argv.uuid
   })
+  .pipe(stringify({
+    columns: columns
+  }))
   .pipe(output)
 }, (toSeconds(argv['initial-delay'] || 0) * 1000));
 

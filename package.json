@@ -10,6 +10,7 @@
   "author": "oroce <robert@oroszi.net>",
   "license": "MIT",
   "dependencies": {
+    "csv-stringify": "^1.0.4",
     "debug": "^2.2.0",
     "duration-parser": "^1.0.2",
     "humanize-duration": "^3.9.1",
