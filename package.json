@@ -1,6 +1,6 @@
 {
   "name": "polar-h7",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "bin": "bin/polar-h7-rr",
   "description": "",
   "main": "index.js",
