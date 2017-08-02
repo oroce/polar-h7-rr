@@ -37,6 +37,9 @@ function onstart() {
   say.speak('The measurement has been started!');
   (argv.breakpoints || '')
     .split(',')
+    .filter(function(item) {
+      return String(item) !== '';
+    })
     .map(toSeconds)
     .forEach(function(ms) {
       const at = humanize(ms, {
